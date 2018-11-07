@@ -1,2 +1,53 @@
 ---
 # Tasks for testing role
+
+- name: run idempotence test
+  hosts: localhost
+  roles:
+    - role: amtega.docker_presets
+      docker_presets_images_json_query: >-
+        [? starts_with(name, `centos-6`)
+           || starts_with(name, `centos-7`)
+           || starts_with(name, `debian-9`)
+           || starts_with(name, `fedora-27`)
+           || starts_with(name, `fedora-28`) ]
+
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: started
+      docker_sandbox_idempotence_test: false
+  tags:
+    - sandbox
+
+- name: test select_hostvars role
+  hosts: docker_sandbox_containers
+  roles:
+    - role: amtega.select_hostvars
+      select_hostvars_pattern: "ansible_devices"
+      select_hostvars_attributes:
+        - dm-0
+      select_hostvars_fact_name: devices_facts_list
+      select_hostvars_output_type: list
+
+    - role: amtega.select_hostvars
+      select_hostvars_pattern: "ansible_devices"
+      select_hostvars_attributes:
+        - dm-0
+      select_hostvars_fact_name: devices_facts_dict
+      select_hostvars_output_type: dict
+  tasks:
+    - name: check that returned fact is correct
+      assert:
+        that:
+          - devices_facts_list is defined
+          - devices_facts_dict is defined
+          - devices_facts_list.0['dm-0'] is defined
+          - devices_facts_dict.ansible_devices['dm-0'] is defined
+
+- name: cleanup docker sandbox
+  hosts: localhost
+  roles:
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: absent
+  tags:
+    - sandbox
+    - cleanup
