@@ -1,2 +1,20 @@
 ---
 # Role default lower priority variables
+
+# The regex pattern that hostvars variables names must have to be selected
+
+select_hostvars_pattern: ".*"
+
+# The list of attributes the filtered hostvars must have to be selected
+
+select_hostvars_attributes: []
+
+# The name of the fact to put in the selected hostvars variables
+
+#select_hostvars_fact_name:
+
+# Type of the output fact. Can be list or dict. If list the fact will return a
+# list with the contents of the matched variables. If dict will return a
+# dictionary mapping the variable name and its contents
+
+select_hostvars_output_type: list

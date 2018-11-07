@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+
+{% for v in hostvars[inventory_hostname] %}
+{% if v is search(select_hostvars_pattern) %}
+{% set ns = namespace(found=true) %}
+{% for a in select_hostvars_attributes %}
+{% if hostvars[inventory_hostname][v][a] is defined %}
+  {% set ns.found = ns.found and true %}
+{% else %}
+  {% set ns.found = ns.found and false %}
+{% endif %}
+{% if ns.found %}
+{% if select_hostvars_output_type == "list" %}
+- {{ hostvars[inventory_hostname][v] | to_json }}
+{% else %}
+"{{ v }}": {{ hostvars[inventory_hostname][v] | to_json }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
