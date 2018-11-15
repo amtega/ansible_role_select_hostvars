@@ -1,15 +1,17 @@
 {{ ansible_managed | comment }}
 
+{% set global_ns = namespace(empty=true) %}
 {% for v in hostvars[inventory_hostname] %}
 {% if v is search(select_hostvars_pattern) %}
-{% set ns = namespace(found=true) %}
+{% set var_ns = namespace(found=true) %}
 {% for a in select_hostvars_attributes %}
 {% if hostvars[inventory_hostname][v][a] is defined %}
-  {% set ns.found = ns.found and true %}
+  {% set var_ns.found = var_ns.found and true %}
 {% else %}
-  {% set ns.found = ns.found and false %}
+  {% set var_ns.found = var_ns.found and false %}
 {% endif %}
-{% if ns.found %}
+{% if var_ns.found %}
+{% set global_ns.empty = false %}
 {% if select_hostvars_output_type == "list" %}
 - {{ hostvars[inventory_hostname][v] | to_json }}
 {% else %}
@@ -19,3 +21,10 @@
 {% endfor %}
 {% endif %}
 {% endfor %}
+{% if global_ns.empty %}
+{% if select_hostvars_output_type == "list" %}
+[]
+{% else %}
+{}
+{% endif %}
+{% endif %}

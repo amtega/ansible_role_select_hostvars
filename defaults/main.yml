@@ -11,7 +11,7 @@ select_hostvars_attributes: []
 
 # The name of the fact to put in the selected hostvars variables
 
-#select_hostvars_fact_name:
+select_hostvars_fact_name: select_hostvars_fact
 
 # Type of the output fact. Can be list or dict. If list the fact will return a
 # list with the contents of the matched variables. If dict will return a
