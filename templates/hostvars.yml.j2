@@ -1,9 +1,15 @@
 {% set global_ns = namespace(empty=true) %}
-{% for v in hostvars[inventory_hostname] %}
+{% if select_hostvars_scope == "current" %}
+{% set hostnames = [ inventory_hostname ] %}
+{% else %}
+{% set hostnames = hostvars.keys() %}
+{% endif %}
+{% for hostname in hostnames %}
+{% for v in hostvars[hostname] %}
 {% if v is search(select_hostvars_pattern) %}
 {% set var_ns = namespace(found=true) %}
 {% for a in select_hostvars_attributes %}
-{% if hostvars[inventory_hostname][v][a] is defined %}
+{% if hostvars[hostname][v][a] is defined %}
 {% else %}
 {% set var_ns.found = var_ns.found and true %}
 {% set var_ns.found = var_ns.found and false %}
@@ -14,13 +20,15 @@
 {% if var_ns.found %}
 {% set global_ns.empty = false %}
 {% if select_hostvars_output_type == "list" %}
-- {{ hostvars[inventory_hostname][v] | to_json }}
+- {{ hostvars[hostname][v] | to_json }}
 {% else %}
-{{ v }}: {{ hostvars[inventory_hostname][v] | to_json }}
+{{ v }}: {{ hostvars[hostname][v] | to_json }}
 {% endif %}
 {% endif %}
 {% endif %}
 {% endfor %}
+{% endfor %}
+
 {% if global_ns.empty %}
 {% if select_hostvars_output_type == "list" %}
 []

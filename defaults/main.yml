@@ -1,6 +1,11 @@
 ---
 # Role default lower priority variables
 
+# Indicate if variables must be gathered only from the `current` host or from
+# `all` hosts available in the ansible `hostvars` variable.
+
+select_hostvars_scope: current
+
 # The regex pattern that hostvars variables names must have to be selected
 
 select_hostvars_pattern: ".*"
