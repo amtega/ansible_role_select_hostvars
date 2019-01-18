@@ -42,6 +42,12 @@
         - dm-0
       select_hostvars_fact_name: devices_facts_dict_all
       select_hostvars_output_type: dict
+
+    - role: amtega.select_hostvars
+      select_hostvars_pattern: "ansible_default"
+      select_hostvars_exclude_pattern: "ansible_default_ipv6"
+      select_hostvars_fact_name: defaults_facts_dict
+      select_hostvars_output_type: dict
   tasks:
     - name: check that returned fact is correct
       assert:
@@ -52,6 +58,8 @@
           - devices_facts_list.0['dm-0'] is defined
           - devices_facts_dict.ansible_devices['dm-0'] is defined
           - devices_facts_dict_all.ansible_devices['dm-0'] is defined
+          - defaults_facts_dict.ansible_default_ipv4 is defined
+          - defaults_facts_dict.ansible_default_ipv6 is not defined
 
 - name: cleanup docker sandbox
   hosts: localhost
