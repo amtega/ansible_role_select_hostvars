@@ -6,7 +6,12 @@
 {% endif %}
 {% for hostname in hostnames %}
 {% for v in hostvars[hostname] %}
-{% if v is search(select_hostvars_pattern) %}
+{% if v is search(select_hostvars_pattern)
+      and (select_hostvars_exclude_pattern is not none
+           and select_hostvars_exclude_pattern | length > 0)
+          | ternary(v is not search(select_hostvars_exclude_pattern
+                                    | default("", true)),
+                                    true) %}
 {% set var_ns = namespace(found=true) %}
 {% for a in select_hostvars_attributes %}
 {% if hostvars[hostname][v][a] is defined %}
