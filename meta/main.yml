@@ -21,7 +21,7 @@ galaxy_info:
       - 7
   - name: Debian
     versions:
-      - 9
+      - stretch
   galaxy_tags:
     - hostvars
 
