@@ -49,6 +49,8 @@
       select_hostvars_fact_name: defaults_facts_dict
       select_hostvars_output_type: dict
   tasks:
+    - debug: var=devices_facts_list
+
     - name: check that returned fact is correct
       assert:
         that:
