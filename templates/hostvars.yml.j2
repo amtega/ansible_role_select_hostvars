@@ -22,7 +22,8 @@
             {%- set host_vars_variable = hostvars[hostname][v] -%}
 
             {%- if host_vars_variable is sequence
-                   and host_vars_variable is not string -%}
+                   and host_vars_variable is not string
+                   and host_vars_variable is not mapping -%}
                 {%- set host_vars_variable_list = host_vars_variable -%}
             {%- else -%}
                 {%- set host_vars_variable_list = [host_vars_variable] -%}
@@ -30,6 +31,7 @@
 
             {%- for a in select_hostvars_attributes -%}
                 {%- for host_vars_variable_item in host_vars_variable_list -%}
+
                     {%- if host_vars_variable_item[a] is defined -%}
                         {%- set var_ns.found = var_ns.found and true -%}
                     {%- else -%}
