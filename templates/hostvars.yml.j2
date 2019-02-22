@@ -3,7 +3,7 @@
 {%- if select_hostvars_scope == "current" -%}
     {%- set hostnames = [ inventory_hostname ] -%}
 {%- else -%}
-    {%- set hostnames = hostvars.keys() -%}
+    {%- set hostnames = hostvars.keys() | list -%}
 {%- endif -%}
 
 {%- for hostname in hostnames -%}
