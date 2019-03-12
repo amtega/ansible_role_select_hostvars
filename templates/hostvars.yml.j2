@@ -1,6 +1,6 @@
 {%- set global_ns = namespace(empty=true) -%}
 
-{%- if select_hostvars_scope == "current" -%}
+{%- if select_hostvars_query.scope | default("current") == "current" -%}
     {%- set hostnames = [ inventory_hostname ] -%}
 {%- else -%}
     {%- set hostnames = hostvars.keys() | list -%}
@@ -10,12 +10,11 @@
 
     {%- for v in hostvars[hostname] -%}
 
-        {%- if v is search(select_hostvars_pattern)
-              and (select_hostvars_exclude_pattern is not none
-                   and select_hostvars_exclude_pattern | length > 0)
-                  | ternary(v is not search(select_hostvars_exclude_pattern
-                                            | default("", true)),
-                                            true) -%}
+        {%- if v is search(select_hostvars_query.pattern)
+              and (select_hostvars_query.exclude_pattern | default("") | length > 0)
+                   | ternary(v is not search(select_hostvars_query.exclude_pattern
+                                             | default("", true)),
+                                             true) -%}
 
             {%- set var_ns = namespace(found=true) -%}
 
@@ -29,9 +28,8 @@
                 {%- set host_vars_variable_list = [host_vars_variable] -%}
             {%- endif -%}
 
-            {%- for a in select_hostvars_attributes -%}
+            {%- for a in select_hostvars_query.attributes | default([]) -%}
                 {%- for host_vars_variable_item in host_vars_variable_list -%}
-
                     {%- if host_vars_variable_item[a] is defined -%}
                         {%- set var_ns.found = var_ns.found and true -%}
                     {%- else -%}
@@ -44,7 +42,7 @@
 
             {%- if var_ns.found -%}
                 {%- set global_ns.empty = false -%}
-                {%- if select_hostvars_output_type == "list" -%}
+                {%- if select_hostvars_query.output_type | default("list") == "list" -%}
 - {{ hostvars[hostname][v] | to_json }}{{ "\n" }}
                 {%- else -%}
 {{ v }}: {{ hostvars[hostname][v] | to_json }}{{ "\n" }}
@@ -55,7 +53,7 @@
 {%- endfor -%}
 
 {%- if global_ns.empty -%}
-    {%- if select_hostvars_output_type == "list" -%}
+    {%- if select_hostvars_query.output_type == "list" -%}
       []
     {%- else -%}
       {}

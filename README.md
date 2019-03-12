@@ -2,17 +2,11 @@
 
 This is an [Ansible](http://www.ansible.com) role that setup a fact with a list/dict of hostvars variables that match a name pattern and contains a set of defined attributes.
 
-## Requirements
-
-[Ansible 2.7+](http://docs.ansible.com/ansible/latest/intro_installation.html)
-
 ## Role Variables
 
-A list of all the default variables for this role is available in `defaults/main.yml`. The role setups the a fact with the name specified in the variable `select_hostvars_fact_name` with the list/dict of hostvars that match the criteria.
+A list of all the default variables for this role is available in `defaults/main.yml`.
 
-## Dependencies
-
-None.
+The role setups the a fact with the name specified in the variable `select_hostvars_query.fact_name` with the list/dict of hostvars that match the criteria.
 
 ## Example Playbook
 
@@ -24,10 +18,12 @@ This is an example playbook:
 - hosts: all
   roles:
     - role: amtega.select_hostvars
-      select_hostvars_pattern: "ansible_devices"
-      select_hostvars_attributes:
-        - dm-0
-      select_hostvars_fact_name: devices_facts
+      vars:
+        select_hostvars_query:
+          pattern: "ansible_devices"
+          attributes:
+            - dm-0
+        fact_name: devices_facts
 ```
 
 ## Testing
@@ -43,7 +39,7 @@ $ ansible-playbook main.yml
 
 ## License
 
-Copyright (C) 2018 AMTEGA - Xunta de Galicia
+Copyright (C) 2019 AMTEGA - Xunta de Galicia
 
 This role is free software: you can redistribute it and/or modify it under the terms of:
 

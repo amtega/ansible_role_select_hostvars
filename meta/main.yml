@@ -4,25 +4,20 @@
 galaxy_info:
   role_name: select_hostvars
   author: Juan Antonio Valiño García
-  description: >-
-    Setup a fact with hostvars that match a name pattern and contains a set of
-    defined attributes
+  description: Setup a fact with hostvars that match a query
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
   min_ansible_version: 2.7
   platforms:
-  - name: Fedora
-    versions:
-      - 27
-      - 28
-  - name: EL
-    versions:
-      - 6
-      - 7
-  - name: Debian
-    versions:
-      - stretch
+    - name: GenericLinux
+      versions:
+        - all
   galaxy_tags:
     - hostvars
 
-dependencies: []
+dependencies:
+  - role: amtega.check_platform
+    vars:
+      check_plaform_variables: ['select_hostvars_query']
+    tags:
+      - role::select_hostvars
