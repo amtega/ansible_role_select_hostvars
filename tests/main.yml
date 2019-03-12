@@ -1,7 +1,7 @@
 ---
 # Tasks for testing role
 
-- name: run idempotence test
+- name: Run idempotence test
   hosts: localhost
   roles:
     - role: amtega.docker_presets
@@ -18,38 +18,46 @@
   tags:
     - sandbox
 
-- name: test select_hostvars role
+- name: Test select_hostvars role
   hosts: docker_sandbox_containers
   roles:
     - role: amtega.select_hostvars
-      select_hostvars_pattern: "ansible_devices"
-      select_hostvars_attributes:
-        - dm-0
-      select_hostvars_fact_name: devices_facts_list
-      select_hostvars_output_type: list
+      vars:
+        select_hostvars_query:
+          pattern: "ansible_devices"
+          attributes:
+            - dm-0
+          fact_name: devices_facts_list
+          output_type: list
 
     - role: amtega.select_hostvars
-      select_hostvars_pattern: "ansible_devices"
-      select_hostvars_attributes:
-        - dm-0
-      select_hostvars_fact_name: devices_facts_dict
-      select_hostvars_output_type: dict
+      vars:
+        select_hostvars_query:
+          pattern: "ansible_devices"
+          attributes:
+            - dm-0
+          fact_name: devices_facts_dict
+          output_type: dict
 
     - role: amtega.select_hostvars
-      select_hostvars_scope: all
-      select_hostvars_pattern: "ansible_devices"
-      select_hostvars_attributes:
-        - dm-0
-      select_hostvars_fact_name: devices_facts_dict_all
-      select_hostvars_output_type: dict
+      vars:
+        select_hostvars_query:
+          scope: all
+          pattern: "ansible_devices"
+          attributes:
+            - dm-0
+          fact_name: devices_facts_dict_all
+          output_type: dict
 
     - role: amtega.select_hostvars
-      select_hostvars_pattern: "ansible_default"
-      select_hostvars_exclude_pattern: "ansible_default_ipv6"
-      select_hostvars_fact_name: defaults_facts_dict
-      select_hostvars_output_type: dict
+      vars:
+        select_hostvars_query:
+          pattern: "ansible_default"
+          exclude_pattern: "ansible_default_ipv6"
+          fact_name: defaults_facts_dict
+          output_type: dict
   tasks:
-    - name: check that returned fact is correct
+    - name: Check that returned fact is correct
       assert:
         that:
           - devices_facts_list is defined
@@ -61,7 +69,7 @@
           - defaults_facts_dict.ansible_default_ipv4 is defined
           - defaults_facts_dict.ansible_default_ipv6 is not defined
 
-- name: cleanup docker sandbox
+- name: Cleanup docker sandbox
   hosts: localhost
   roles:
     - role: amtega.docker_sandbox
