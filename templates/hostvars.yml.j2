@@ -6,6 +6,18 @@
     {%- set hostnames = hostvars.keys() | list -%}
 {%- endif -%}
 
+{%- if select_hostvars_query.host_pattern is defined -%}
+{%- set hostnames = hostnames
+                    | select("search", select_hostvars_query.host_pattern)
+                    | list -%}
+{%- endif -%}
+
+{%- if select_hostvars_query.host_exclude_pattern is defined -%}
+{%- set hostnames = hostnames
+                    | reject("search", select_hostvars_query.host_exclude_pattern)
+                    | list -%}
+{%- endif -%}
+
 {%- for hostname in hostnames -%}
 
     {%- for v in hostvars[hostname] -%}
