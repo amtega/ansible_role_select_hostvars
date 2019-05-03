@@ -15,6 +15,12 @@
 # exclude_pattern: <regex>      # The regex pattern that hostvars variables
 #                               # names must not have to be selected
 #
+# host_pattern: <regex>         # The regex pattern that hosts must have to be
+#                               # selected
+#
+# host_exclude_pattern: <regex> # The regex pattern that hosts must have to be
+#                               # selected
+#
 # attributes: <attributes>      # The list of strings with the attributes names
 #                               # filtered hostvars must have to be selected
 #
@@ -34,6 +40,8 @@
 #   scope: current
 #   pattern: "my_vars_.*"
 #   exclude_pattern: "my_vars_to_exclude.*"
+#   host_pattern: "myserver.*"
+#   host_exclude_pattern: "mybadhost.*"
 #   attributes: [ "myattr1", "myattr2" ]
 #   fact_name: my_hostvars
 #   output_type: list

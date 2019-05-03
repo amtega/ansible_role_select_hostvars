@@ -25,6 +25,8 @@
       vars:
         select_hostvars_query:
           pattern: "ansible_devices"
+          host_pattern: ".*"
+          host_exclude_pattern: "mybadhost.*"
           attributes:
             - dm-0
           fact_name: devices_facts_list
@@ -34,6 +36,8 @@
       vars:
         select_hostvars_query:
           pattern: "ansible_devices"
+          host_pattern: ".*"
+          host_exclude_pattern: "mybadhost.*"
           attributes:
             - dm-0
           fact_name: devices_facts_dict
@@ -44,6 +48,8 @@
         select_hostvars_query:
           scope: all
           pattern: "ansible_devices"
+          host_pattern: ".*"
+          host_exclude_pattern: "mybadhost.*"
           attributes:
             - dm-0
           fact_name: devices_facts_dict_all
@@ -54,6 +60,8 @@
         select_hostvars_query:
           pattern: "ansible_default"
           exclude_pattern: "ansible_default_ipv6"
+          host_pattern: ".*"
+          host_exclude_pattern: "mybadhost.*"
           fact_name: defaults_facts_dict
           output_type: dict
   tasks:
