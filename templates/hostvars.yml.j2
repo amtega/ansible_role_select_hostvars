@@ -22,7 +22,8 @@
 
     {%- for v in hostvars[hostname] -%}
 
-        {%- if v is search(select_hostvars_query.pattern)
+        {%- if v != select_hostvars_query.fact_name
+              and v is search(select_hostvars_query.pattern)
               and (select_hostvars_query.exclude_pattern | default("") | length > 0)
                    | ternary(v is not search(select_hostvars_query.exclude_pattern
                                              | default("", true)),
