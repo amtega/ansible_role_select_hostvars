@@ -5,5 +5,6 @@
   set_fact:
     "{{ select_hostvars_query.fact_name }}": >-
       {{ lookup('template', 'hostvars.yml.j2') | from_yaml }}
+  when: select_hostvars_query is defined
   tags:
     - role::select_hostvars
