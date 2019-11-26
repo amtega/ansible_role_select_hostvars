@@ -25,6 +25,28 @@ This is an example playbook:
             - dm-0
         fact_name: devices_facts
 ```
+with this inventory:
+
+```yaml
+---
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_devices_example:
+        aaa: 1
+      ansible_devices_test:
+        bbb: 2
+
+```
+will generate this fact:
+
+```yaml
+---
+devices_facts:
+  aaa: 1
+  bbb: 2
+```
 
 ## Testing
 
