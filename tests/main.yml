@@ -1,7 +1,7 @@
 ---
 # Tasks for testing role
 
-- name: Run idempotence test
+- name: Setup testing sandbox
   hosts: localhost
   roles:
     - role: amtega.docker_presets
@@ -76,7 +76,7 @@
           - defaults_facts_dict.ansible_default_ipv4 is defined
           - defaults_facts_dict.ansible_default_ipv6 is not defined
 
-- name: Cleanup docker sandbox
+- name: Cleanup testing sandbox
   hosts: localhost
   roles:
     - role: amtega.docker_sandbox
