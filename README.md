@@ -37,6 +37,14 @@ all:
         aaa: 1
       ansible_devices_test:
         bbb: 2
+      ansible_devices_dict_example:
+        ddd:
+          dm-0: 1
+          eee: 2
+      ansible_devices_ignored_dict_example:
+        xxx:
+          yyy: 1
+          zzz: 2
 
 ```
 will generate this fact:
@@ -46,6 +54,9 @@ will generate this fact:
 devices_facts:
   aaa: 1
   bbb: 2
+  ddd:
+    dm-0: 1
+    eee: 2
 ```
 
 ## Testing
