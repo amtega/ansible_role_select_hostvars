@@ -23,7 +23,7 @@ This is an example playbook:
           pattern: "ansible_devices"
           attributes:
             - dm-0
-        fact_name: devices_facts
+          fact_name: devices_facts
 ```
 with this inventory:
 
