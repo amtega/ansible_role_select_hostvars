@@ -36,13 +36,13 @@ platforms:
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-      - molecule_hosts_fedora_33
+      - molecule_hosts_fedora_34
   - name: "fedora34-${INSTANCE_UUID:-1}"
     image: fedora:34
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-      - molecule_hosts_fedora_34
+      - molecule_hosts_fedora_35
 provisioner:
   name: ansible
   config_options:
