@@ -2,10 +2,10 @@
 
 dependency:
   name: galaxy
-  enabled: yes
+  enabled: true
   options:
-    ignore-certs: yes
-    ignore-errors: yes
+    ignore-certs: true
+    ignore-errors: true
     role-file: "${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml"
     requirements-file: "${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml"
 driver:
